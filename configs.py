@@ -21,3 +21,13 @@ if not DEBUG:
         datefmt='%Y-%m-%d %H:%M:%S',
         level=logging.WARNING
     )
+    print(DEBUG)
+    import sentry_sdk
+    sentry_sdk.init(
+        dsn="https://47e155755171488ebf1e2f1f621d3523@o1341400.ingest.sentry.io/6631833",
+    
+        # Set traces_sample_rate to 1.0 to capture 100%
+        # of transactions for performance monitoring.
+        # We recommend adjusting this value in production.
+        traces_sample_rate=1.0
+    )

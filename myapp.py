@@ -3,10 +3,9 @@ from flask import Flask, request
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto, \
     ReplyKeyboardMarkup
-from configs import TOKEN
+from configs import TOKEN, DEBUG
 import os
 import time
-
 import sqlite3
 
 connection = sqlite3.connect('data.sqlite', check_same_thread=False)
@@ -55,7 +54,7 @@ def get_active_users():
 
 
 bot = telebot.TeleBot(TOKEN)
-
+bot.send_message(390736292, "Bot are started {}".format(DEBUG))
 
 @bot.message_handler(func=lambda msg: msg.text == "🔙На главную" or msg.text == "/start")
 def send_welcome_homepage(message):
