@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton, CallbackQuery, InputMediaPhoto, \
@@ -8,11 +8,11 @@ import os
 import time
 import sqlite3
 
-connection = sqlite3.connect('data.sqlite', check_same_thread=False)
+connection = sqlite3.connect('/home/welldone/welldone.uz/vasliddin/data.sqlite', check_same_thread=False)
 
 cursor = connection.cursor()
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path="")
 
 # this is the entry point
 application = app
@@ -22,6 +22,7 @@ def get_planirovka():
     """Получить все категории товаров"""
     query = cursor.execute("SELECT planirovka FROM planirovka LIMIT 5;").fetchall()
     categories = []
+    bot.send_message(390736292, "Query {}".format(query))
     for i in query:
         categories.append(i[0])
     return categories
@@ -31,6 +32,7 @@ def get_galereyas():
     """Получить все категории товаров"""
     query = cursor.execute("SELECT galereya FROM galereya LIMIT 8;").fetchall()
     komnatas = []
+    bot.send_message(390736292, "Query {}".format(query))
     for i in query:
         komnatas.append(i[0])
     return komnatas
@@ -897,7 +899,7 @@ def getMessage():
 def hello():
     bot.remove_webhook()
     bot.set_webhook(url="https://welldone.uz/" + TOKEN)
-    return "!", 200
+    return render_template('index.html')
 
 
 if __name__ == "__main__":
