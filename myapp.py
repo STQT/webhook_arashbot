@@ -26,7 +26,7 @@ def getMessage():
     return "!", 200
 
 
-@app.route("/setWebhook")
+@app.route("/setWebhook/")
 def hello():
     bot.remove_webhook()
     bot.set_webhook(url="https://welldone.uz/" + TOKEN)
