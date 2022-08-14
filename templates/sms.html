@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .alert {
+            padding: 20px;
+            margin: 5px;
+            color: #970020;
+            background-color: #ffd5de;
+        }
+    </style>
+</head>
+<body>
+<h1>{% block title %} Add a New Message {% endblock %}</h1>
+{% for message in get_flashed_messages() %}
+    <div class="alert">{{ message }}</div>
+{% endfor %}
+<form method="post">
+    <label for="title">Phone</label>
+    <br>
+    <label>
+        <input type="text" name="title"
+               placeholder="+998991979899"
+               value="{{ request.form['title'] }}">
+    </label>
+    <br>
+
+    <label for="content">
+        <textarea name="content"
+                  placeholder="Message content"
+                  rows="15"
+                  cols="60"
+        >{{ request.form['content'] }}</textarea>
+    </label>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>
