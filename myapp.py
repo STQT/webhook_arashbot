@@ -20,6 +20,11 @@ messages = [{'title': 'Message One',
             ]
 
 
+@app.context_processor
+def inject_debug():
+    return dict(debug=app.debug)
+
+
 @app.route("/" + TOKEN, methods=['POST'])
 def getMessage():
     bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('utf-8'))])
@@ -56,5 +61,6 @@ def main_page():
 
 
 if __name__ == "__main__":
-    # app.run()
-    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)))
+    # app.run(debug=DEBUG)  # for testing
+    app.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5000)),
+            debug=DEBUG)  # for production

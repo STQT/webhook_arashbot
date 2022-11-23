@@ -9,5 +9,6 @@ MarkupSafe==2.1.1
 pyTelegramBotAPI==4.6.1
 python-dotenv==0.20.0
 requests==2.28.1
+sentry-sdk==1.11.1
 urllib3==1.26.11
 Werkzeug==2.2.2
