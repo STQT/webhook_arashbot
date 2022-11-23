@@ -23,7 +23,7 @@
 
 .light-mode {
   --color-primary: #FFFFFF;
-  --color-secondary: #F56692;
+  --color-secondary: #0ee8d0;
   --color-white: #454e56;
   --color-black: #000;
   --color-grey0: #f8f8f8;
@@ -309,22 +309,29 @@ section {
   width: 60%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .html {
-  width: 80%;
+  width: 70%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .css {
-  width: 95%;
+  width: 70%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .js {
+.about-stats .progress-bars .progress-bar .progress-con .progress .linux {
   width: 75%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .react {
-  width: 60%;
+.about-stats .progress-bars .progress-bar .progress-con .progress .oop {
+  width: 80%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .node {
-  width: 87%;
+.about-stats .progress-bars .progress-bar .progress-con .progress .django {
+  width: 95%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .python {
-  width: 70%;
+  width: 95%;
+}
+
+.about-stats .progress-bars .progress-bar .progress-con .progress .flask {
+  width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .docker {
+  width: 80%;
 }
 
 .stat-title {

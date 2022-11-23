@@ -23,7 +23,7 @@
 
 .light-mode {
     --color-primary: #FFFFFF;
-    --color-secondary: #F56692;
+    --color-secondary: #0ee8d0;
     --color-white: #454e56;
     --color-black: #000;
     --color-grey0: #f8f8f8;
@@ -298,12 +298,14 @@ section {
                         transition: all .4s ease-in-out;
                         width: 60%;
                     }
-                    .html { width: 80%; }
-                    .css { width: 95%; }
-                    .js { width: 75%; }
-                    .react{ width: 60%; }
-                    .node{ width: 87%; }
-                    .python{ width: 70%; }
+                    .html { width: 70%; }
+                    .css { width: 70%; }
+                    .linux { width: 75%; }
+                    .oop{ width: 80%; }
+                    .django{ width: 95%; }
+                    .python{ width: 95%; }
+                    .flask{ width: 85%; }
+                    .docker{ width: 80%; }
                 }
             }
         }
