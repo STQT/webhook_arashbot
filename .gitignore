@@ -4,4 +4,4 @@ __pycache__
 logs/
 .env
 venv
-data.sqlite
+#data.sqlite

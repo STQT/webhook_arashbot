@@ -1,5 +1,7 @@
 import os
 import logging
+
+import sentry_sdk
 import datetime
 
 from dotenv import load_dotenv
@@ -17,7 +19,6 @@ SECRET_KEY = os.getenv('FLASK_SECRET_KEY')
 SMS_SECRET_KEY = os.getenv('SMS_SECRET_KEY')
 
 if not DEBUG:
-    import sentry_sdk
     logging.basicConfig(
         filename=f'logs/bot-from-{datetime.datetime.now().date()}.log',
         filemode='w',
@@ -25,9 +26,8 @@ if not DEBUG:
         datefmt='%Y-%m-%d %H:%M:%S',
         level=logging.WARNING
     )
-
     sentry_sdk.init(
-        dsn="https://47e155755171488ebf1e2f1f621d3523@o1341400.ingest.sentry.io/6631833",
+        dsn="https://aef700f7d45c44cd8b043231c030ea6e@o1341400.ingest.sentry.io/4504875616305152",
     
         # Set traces_sample_rate to 1.0 to capture 100%
         # of transactions for performance monitoring.

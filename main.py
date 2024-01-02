@@ -16,7 +16,6 @@ def get_planirovka():
     """Получить все категории товаров"""
     query = cursor.execute("SELECT planirovka FROM planirovka LIMIT 5;").fetchall()
     categories = []
-    bot.send_message(390736292, "Query {}".format(query))
     for i in query:
         categories.append(i[0])
     return categories
@@ -26,7 +25,6 @@ def get_galereyas():
     """Получить все категории товаров"""
     query = cursor.execute("SELECT galereya FROM galereya LIMIT 8;").fetchall()
     komnatas = []
-    bot.send_message(390736292, "Query {}".format(query))
     for i in query:
         komnatas.append(i[0])
     return komnatas
@@ -51,8 +49,6 @@ def get_active_users():
 
 bot = telebot.TeleBot(TOKEN)
 
-bot.send_message(390736292, "Bot are started {}".format(DEBUG))
-
 
 @bot.message_handler(func=lambda msg: msg.text == "🔙На главную" or msg.text == "/start")
 def send_welcome_homepage(message):
@@ -66,13 +62,13 @@ def send_welcome_homepage(message):
     markup.add('👥Обслуживание клиентов')
     if message.from_user.id == 986262919 or message.from_user.id == 29895715 or message.from_user.id == 390736292:
         markup.add('Администрирование')
-    bot.send_message(message.chat.id, f"Здравствуйте, *{first_name}*!\nВыберите нужный раздел 👇 ", reply_markup=markup,
+    bot.send_message(message.chat.id, f"Здравствуйте Gayrat, *{first_name}*!\nВыберите нужный раздел 👇 ", reply_markup=markup,
                      parse_mode="Markdown")
 
 
 @bot.message_handler(commands=["addtolist"])
 def addtolist(message):
-    if message.from_user.id == 986262919 or message.from_user.id == 29895715 or message.from_user.id == 390736292:
+    if message.from_user.id in (986262919, 29895715, 390736292):
         strings = message.text.split()
         if len(strings) >= 4:
             strings.remove('/addtolist')
@@ -295,6 +291,18 @@ def get_answer_photo(message):
         bot.send_message(message.chat.id, "Правильно ввёл?",
                          reply_markup=markup)
         bot.register_next_step_handler(message, get_sms_text_admin)
+    elif message.video:
+        bot.send_message(message.chat.id, "Это видео!")
+        bot.send_video(message.chat.id, message.video.file_id, caption=message.caption)
+        sql = """UPDATE post SET img = ?, text = ? WHERE id = 1"""
+        cursor.execute(sql, (str(message.video.file_id), message.caption)).fetchone()
+        connection.commit()
+        markup = ReplyKeyboardMarkup()
+        markup.add('Да! Видео')
+        markup.add('Нет!')
+        bot.send_message(message.chat.id, "Правильно ввёл?",
+                         reply_markup=markup)
+        bot.register_next_step_handler(message, get_sms_text_admin)
     elif message.text:
         bot.send_message(message.chat.id, message.text)
         sql = """UPDATE post SET text = ? WHERE id = 1"""
@@ -330,6 +338,17 @@ def get_sms_text_admin(message):
         for send in users:
             try:
                 bot.send_message(send[0], query[1])
+            except Exception as e:
+                sql = """Update users set checking = ? where telegram_id = ?;"""
+                cursor.execute(sql, (0, send[0])).fetchone()
+                connection.commit()
+                bot.send_message(message.chat.id, f"net takogo id {send[0]}")
+            time.sleep(0.03)
+        send_welcome_homepage(message)
+    elif message.text == 'Да! Видео':
+        for send in users:
+            try:
+                bot.send_video(send[0], query[0], query[1])
             except Exception as e:
                 sql = """Update users set checking = ? where telegram_id = ?;"""
                 cursor.execute(sql, (0, send[0])).fetchone()

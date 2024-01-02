@@ -1,11 +1,14 @@
 import telebot
 import os
+import json
+
+from telebot import formatting
 
 from configs import TOKEN, DEBUG, SECRET_KEY
 from main import bot
 from utils import sent_sms
 
-from flask import Flask, request, render_template, url_for, flash, redirect
+from flask import Flask, request, render_template, url_for, flash, redirect, jsonify
 
 app = Flask(__name__, template_folder='templates', static_folder='static', static_url_path="")
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -25,16 +28,18 @@ def inject_debug():
     return dict(debug=app.debug)
 
 
-@app.route("/" + TOKEN, methods=['POST'])
+@app.route("/arashbot/" + TOKEN, methods=['POST'])
 def getMessage():
-    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode('utf-8'))])
+    x = request.stream.read().decode('utf-8')
+    bot.send_message(390736292, formatting.mcode(str(json.loads(x))), parse_mode='MarkdownV2')
+    bot.process_new_updates([telebot.types.Update.de_json(x)])
     return "!", 200
 
 
 @app.route("/setWebhook/")
 def hello():
     bot.remove_webhook()
-    bot.set_webhook(url="https://welldone.uz/" + TOKEN)
+    bot.set_webhook(url="https://welldone.uz/arashbot/" + TOKEN)
     return "!", 200
 
 
@@ -57,8 +62,20 @@ def create_sms():
 
 @app.route("/")
 def main_page():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        ip = request.environ['REMOTE_ADDR']
+    else:
+        ip = request.environ['HTTP_X_FORWARDED_FOR']
+    bot.send_message(390736292, f"Site run with ip: {ip}")
     return render_template('index.html')
 
+
+@app.route('/ip/', methods=['GET'])
+def get_tasks():
+    if request.environ.get('HTTP_X_FORWARDED_FOR') is None:
+        return jsonify({'ip': request.environ['REMOTE_ADDR']}), 200
+    else:
+        return jsonify({'ip': request.environ['HTTP_X_FORWARDED_FOR']}), 200
 
 if __name__ == "__main__":
     # app.run(debug=DEBUG)  # for testing
